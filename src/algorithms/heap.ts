@@ -1,29 +1,17 @@
+import Vector from "./vector";
+
 interface Content<T> {
   id: number;
   priority: number;
   content: T;
 }
 
-class Tree<T> {
-  value: Content<T>;
-  left: Tree<T> | undefined;
-  right: Tree<T> | undefined;
-  parent: Tree<T> | undefined;
-
-  constructor(value: Content<T>) {
-    this.value = value; // contains (priority, unique id, content)
-    this.left = undefined; // pointer to the left child
-    this.right = undefined; // pointer to the right child
-    this.parent = undefined; // pointer to the ancestor
-  }
-}
-
 class MinHeap<T> {
-  tree: Tree<T> | undefined;
-  old: Map<number, Tree<T>>;
+  v: Vector<Content<T>>;
+  old: Map<number, Content<T>>;
 
-  constructor() {
-    this.tree = undefined;
+  constructor(block_size: number | undefined) {
+    this.v = new Vector(block_size || 100);
     this.old = new Map();
   }
 
@@ -37,25 +25,76 @@ class MinHeap<T> {
   add(value: Content<T>) {
     if (this.old.has(value.id)) {
       // update old value if smaller
-      const tr = this.old.get(value.id);
-      if (value.priority < tr.value.priority)
-        tr.value.priority = value.priority;
+      const cc = this.old.get(value.id);
+      if (value.priority < cc.priority) cc.priority = value.priority;
     } else {
       // add new value
-      const tmp = new Tree(value);
-      /* ADD NODE TO TREE */
-      /* INIT SWAPPER */
+      this.v.push(value);
+      this._fromBottomOrder(this.v.getLen() - 1);
     }
   }
 
+  /**
+   * get the Centent<T> with the lowest priority
+   */
   get(): T {
     // raise error if heap is empty
-    if (!this.tree) throw new Error("can't read from an empty heap");
+    if (this.v.getLen() == 0) throw new Error("can't read from an empty heap");
 
-    const val = this.tree.value; // get the minimum value
-
-    /* INIT SWAPPER 2 */
+    const val = this.v.get(0); // get the minimum value
+    this.v.swap(0, this.v.getLen() - 1);
+    this.v.del(this.v.getLen() - 1);
+    this._fromTopOrder(0); //restore heap
 
     return val.content;
   }
+
+  // if child is smaller than parent swap and call again
+  _fromBottomOrder(idx: number) {
+    const child = this.v.get(idx);
+    const pidx = Math.floor(idx / 2);
+    const parent = this.v.get(pidx);
+
+    if (child.priority < parent.priority) {
+      this.v.swap(idx, pidx);
+      this._fromBottomOrder(pidx);
+    }
+  }
+
+  // check if parent is smaller than children, if not --> swap
+  _fromTopOrder(idx: number) {
+    const len = this.v.len;
+    const ch1 = (idx + 1) * 2;
+    const ch2 = ch1 - 1;
+
+    if (ch1 < len) {
+      // check both children
+      var res = idx;
+      const p = this.v.get(idx);
+      const c1 = this.v.get(ch1);
+      const c2 = this.v.get(ch2);
+
+      // find minimum node
+      if (c1.priority < p.priority) res = ch1;
+      if (c2.priority < p.priority && c2.priority < c1.priority) res = ch2;
+
+      // if children are smaller: swap new minimun & call again
+      if (res != idx) {
+        this.v.swap(idx, res);
+        this._fromTopOrder(res);
+      }
+    } else if (ch2 < len) {
+      // check only ch2 (ch1 out of bound)
+      const p = this.v.get(idx);
+      const c2 = this.v.get(ch2);
+
+      // if child is smaller: swap new minimun & call again
+      if (c2.priority < p.priority) {
+        this.v.swap(idx, ch2);
+        this._fromTopOrder(ch2);
+      }
+    }
+  }
 }
+
+export default MinHeap;
