@@ -1,12 +1,12 @@
 class Vector<T> {
-  values: Array<T>[];
+  values: Array<T | undefined>[];
   size: number;
   len: number;
 
   constructor(size: number) {
-    this.size = size;
+    this.size = size || 10;
     this.len = 0;
-    this.values = [Array(size)];
+    this.values = [];
     if (!this.values) throw Error("couldn't create the array");
   }
 
@@ -17,10 +17,27 @@ class Vector<T> {
     return [arrayN, id];
   }
 
+  print() {
+    var x = 0;
+    console.log("[");
+    for (let i = 0; i < this.len; i++) {
+      const [arrayN, index] = this._coord(i);
+      if (arrayN > x) {
+        console.log("][");
+        x = arrayN;
+      }
+      console.log(this.values[arrayN][index]);
+    }
+    console.log("]");
+  }
+
   // add a value at the end of the vector (eventually expands)
   push(content: T) {
     const [arrayN, index] = this._coord(this.len);
-    if (index == 0) this.values.concat(Array(this.size));
+    if (index == 0) {
+      const factor = 2 ** this.values.length;
+      this.values.push(Array(this.size * factor));
+    }
 
     this.values[arrayN][index] = content;
     this.len++;
@@ -31,7 +48,10 @@ class Vector<T> {
     if (index >= this.len) throw Error("index out of bound");
     const [arrayN, id] = this._coord(index);
 
-    return this.values[arrayN][id];
+    const res = this.values[arrayN][id];
+    if (!res) throw Error("get returning undefined"); // should never happen
+
+    return res;
   }
 
   // update the value of an existing cell

@@ -23,13 +23,23 @@ class MinHeap<T> {
    * }
    */
   add(value: Content<T>) {
-    if (this.old.has(value.id)) {
+    const cc = this.old.get(value.id);
+    if (cc) {
       // update old value if smaller
-      const cc = this.old.get(value.id);
-      if (value.priority < cc.priority) cc.priority = value.priority;
+      if (value.priority < cc.priority) {
+        cc.priority = value.priority;
+        for (let i = 0; i < this.v.getLen(); i++) {
+          const val = this.v.get(i);
+          if (val.id == value.id) {
+            this._fromBottomOrder(i);
+            break;
+          }
+        }
+      }
     } else {
       // add new value
       this.v.push(value);
+      this.old.set(value.id, value);
       this._fromBottomOrder(this.v.getLen() - 1);
     }
   }
