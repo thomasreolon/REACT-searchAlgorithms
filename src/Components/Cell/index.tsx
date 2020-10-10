@@ -8,6 +8,7 @@ interface CellProps{
     isFinish:boolean,
     isStart:boolean,
     isWall:boolean,
+    mPressed:boolean[],
     onMouseDown:(row:number,col:number)=>void,
     onMouseEnter:(row:number,col:number)=>void,
     size:string,
@@ -15,15 +16,29 @@ interface CellProps{
 
 
 function Cell(props:CellProps) {
+    const [isWall, setIsWall] = React.useState(false);
+
+    const setWall = (pressedNow:boolean) =>{
+        if (pressedNow || props.mPressed[0]){// check user wanted to draw a wall
+            if (!props.isStart && !props.isFinish){// check that it was a feasible cell
+                if (pressedNow)
+                    props.onMouseDown(props.row, props.col);
+                else
+                    props.onMouseEnter(props.row, props.col);
+                setIsWall(!isWall)
+            }
+        }
+    }
+
     return (
         <div
             id={`cell-${props.row}-${props.col}`}
             className="cell"
-            onMouseDown={(event) => {props.onMouseDown(props.row, props.col);event.preventDefault();}}
-            onMouseEnter={(event) => {props.onMouseEnter(props.row, props.col);event.preventDefault();}}
+            onMouseDown={(event) => {setWall(true);event.preventDefault();}}
+            onMouseEnter={(event) => {setWall(false);event.preventDefault();}}
             style={{'width':props.size, 'height':props.size,}}>
             
-            {props.isWall && <div className="wall"></div>}
+            {isWall && <div className="wall"></div>}
             {props.isStart && <div className="start"></div>}
             {props.isFinish && <div className="finish"></div>}
 
