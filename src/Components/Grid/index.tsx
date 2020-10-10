@@ -5,28 +5,20 @@ import './Grid.css'
 var NODE_ROW = 10,
     START_NODE_COL=5,
     FINISH_NODE_COL=25;
-
+interface Coord{
+  x:number,
+  y:number,
+}
 interface Node{
     col:number,
-      row:number,
-      isStart: boolean,
-      isFinish: boolean,
-      isVisited: boolean,
-      isWall: boolean,
-      previousNode: Node|null,
+    row:number,
+    isStart: boolean,
+    isFinish: boolean,
+    isVisited: boolean,
+    isWall: boolean,
+    previousNode: Node|null,
 }
-//////////////////////////////////////////////////////////////
-function getSizes():any{
-  const w = window.innerWidth;
-  const h = window.innerHeight;
-  if (w/h>1){
-      // wide screen
-      return [60, 30, "1.75vw"]
-  }else{
-      //tall screen
-      return [30, 50, "3.33vw"]
-  }
-}
+///////////////////////SETTING-UP///////////////////////////////////////
 const createNode = (col:number, row:number):Node => {
   return {
     col,
@@ -40,7 +32,11 @@ const createNode = (col:number, row:number):Node => {
 };
 const getInitialGrid = () => {
   // set size of the grid, depending on device
-  const [width, height] = getSizes();
+  var width=30, height=50;// dafault:mobile
+  if (window.innerWidth/window.innerHeight>1){
+      // wide screen
+      width=60, height=30;
+  }
 
   NODE_ROW = Math.floor(height/2);    START_NODE_COL=Math.floor(width/10);    FINISH_NODE_COL=Math.floor(width*9/10);
   const grid = [];
@@ -133,7 +129,33 @@ const ToggleWall = (grid:Node[][], row:number, col:number) => {
   grid[row][col] = newNode;
   return grid;
 };
+function animateShortestPath(reversedPath:Coord[]) {
+  for (let i = reversedPath.length-1; i >=0; i--) {
+    setTimeout(() => {
+      const node = reversedPath[i];
+      document.getElementById(`cell-${node.x}-${node.y}`)!.className =
+        'cell cell-shortest-path';
+    }, 50 * i);
+  }
+}
 
+function animateDijkstra(visited:Coord[], reversedPath:Coord[]) {
+  for (let i = 0; i <= visited.length; i++) {
+    if (i === visited.length) {
+      setTimeout(() => {
+        animateShortestPath(reversedPath);
+      }, 10 * i);
+      return;
+    }
+    setTimeout(() => {
+      const node = visited[i];
+      if (!!document){
+        document.getElementById(`cell-${node.x}-${node.y}`)!.className =
+          'cell cell-visited';
+      }
+    }, 10 * i);
+  }
+}
 
 
 
