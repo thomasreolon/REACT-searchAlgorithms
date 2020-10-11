@@ -1,5 +1,6 @@
 import React from 'react';
 import Cell from '../Cell';
+import CmdPanel from '../CmdPanel';
 import './Grid.css'
 
 var NODE_ROW = 10,
@@ -35,7 +36,7 @@ const getInitialGrid = () => {
   var width=30, height=50;// dafault:mobile
   if (window.innerWidth/window.innerHeight>1){
       // wide screen
-      width=60, height=30;
+      width=60; height=30;
   }
 
   NODE_ROW = Math.floor(height/2);    START_NODE_COL=Math.floor(width/10);    FINISH_NODE_COL=Math.floor(width*9/10);
@@ -84,6 +85,13 @@ function Grid() {
     }
     
     return (
+      <>
+        <CmdPanel 
+          grid={grid} 
+          start={{x:NODE_ROW, y:START_NODE_COL}} 
+          nRow={grid.length} 
+          nCol={grid[0].length}
+        />
         <div className="Grid">
             <h1>|-{mPressed?"Y":"N"}-|</h1>
             {grid.map((row, rowIdx) => {
@@ -110,6 +118,7 @@ function Grid() {
             );
           })}
         </div>
+        </>
     );
 }
 
@@ -129,33 +138,7 @@ const ToggleWall = (grid:Node[][], row:number, col:number) => {
   grid[row][col] = newNode;
   return grid;
 };
-function animateShortestPath(reversedPath:Coord[]) {
-  for (let i = reversedPath.length-1; i >=0; i--) {
-    setTimeout(() => {
-      const node = reversedPath[i];
-      document.getElementById(`cell-${node.x}-${node.y}`)!.className =
-        'cell cell-shortest-path';
-    }, 50 * i);
-  }
-}
 
-function animateDijkstra(visited:Coord[], reversedPath:Coord[]) {
-  for (let i = 0; i <= visited.length; i++) {
-    if (i === visited.length) {
-      setTimeout(() => {
-        animateShortestPath(reversedPath);
-      }, 10 * i);
-      return;
-    }
-    setTimeout(() => {
-      const node = visited[i];
-      if (!!document){
-        document.getElementById(`cell-${node.x}-${node.y}`)!.className =
-          'cell cell-visited';
-      }
-    }, 10 * i);
-  }
-}
 
 
 

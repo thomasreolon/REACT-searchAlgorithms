@@ -1,7 +1,6 @@
 import React from 'react';
 import "./Cell.css";
 
-const a = ()=>{}
 interface CellProps{
     row:number,
     col:number,

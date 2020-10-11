@@ -4,7 +4,6 @@ import './index.css';
 import App from './Components/App';
 import * as serviceWorker from './serviceWorker';
 
-import Cell from "./Components/Cell"
 
 ReactDOM.render(
   <React.StrictMode>

@@ -24,9 +24,7 @@ test("bfs with wall", () => {
     grid[3][2].isWall = true;
     grid[3][3].isWall = true;
     
-    console.log("_____________START______________")
-    const [vis, path] = bfs(grid, 0, 0, 10, 10);
-    console.log(path);
+    const [, path] = bfs(grid, 0, 0, 10, 10);
     expect(path.length).toBe(15);
 });
 

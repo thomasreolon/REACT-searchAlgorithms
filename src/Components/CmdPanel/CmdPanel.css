@@ -1,0 +1,101 @@
+.htop {
+  height: 10em;
+}
+
+.panel {
+  position: absolute;
+  top: -4em;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 4em;
+  border-radius: 10%;
+  background: linear-gradient(
+    rgba(255, 255, 255, 0.9),
+    rgba(255, 255, 255, 0.3)
+  );
+}
+.description {
+  padding: 4px;
+  background-color: rgba(240, 240, 240, 0.8);
+}
+
+.btn {
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  border-radius: 1em;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+.btn-alg {
+  background-color: #008cba;
+}
+.btn-alg:hover {
+  animation-name: algAnimation;
+  animation-duration: 3s;
+  animation-timing-function: ease-out;
+  animation-delay: 0;
+  animation-direction: alternate;
+  animation-iteration-count: 2;
+  animation-fill-mode: forwards;
+  animation-play-state: running;
+}
+
+@keyframes algAnimation {
+  0% {
+    background-color: #008cba;
+  }
+  25% {
+    background-color: #1f8ccc;
+  }
+
+  50% {
+    background-color: rgba(62, 89, 240, 0.75);
+  }
+
+  75% {
+    background-color: rgba(108, 46, 207, 0.75);
+  }
+
+  100% {
+    background-color: #008cba;
+  }
+}
+
+.btn-start {
+  background-color: #006e21;
+}
+.btn-start:hover {
+  animation-name: startAnimation;
+  animation-duration: 3s;
+  animation-timing-function: ease-out;
+  animation-delay: 0;
+  animation-direction: alternate;
+  animation-iteration-count: 2;
+  animation-fill-mode: forwards;
+  animation-play-state: running;
+}
+
+@keyframes startAnimation {
+  0% {
+    background-color: #006e21;
+  }
+
+  40% {
+    background-color: #1aaa45;
+  }
+
+  60% {
+    background-color: #29e4a6;
+  }
+
+  100% {
+    background-color: #006e21;
+  }
+}

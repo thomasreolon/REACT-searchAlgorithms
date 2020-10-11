@@ -17,20 +17,6 @@ class Vector<T> {
     return [arrayN, id];
   }
 
-  print() {
-    var x = 0;
-    console.log("[");
-    for (let i = 0; i < this.len; i++) {
-      const [arrayN, index] = this._coord(i);
-      if (arrayN > x) {
-        console.log("][");
-        x = arrayN;
-      }
-      console.log(this.values[arrayN][index]);
-    }
-    console.log("]");
-  }
-
   // add a value at the end of the vector (eventually expands)
   push(content: T) {
     const [arrayN, index] = this._coord(this.len);

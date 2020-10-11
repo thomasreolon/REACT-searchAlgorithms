@@ -38,7 +38,6 @@ function bfs(grid:Node[][], startRow:number, startCol:number, nRow:number, nCol:
     grid[startRow][startCol].isVisited = true;
 
     while(!!stack.length){
-        console.log(stack.length);
         const cd = stack.shift();
         if (cd){
 
