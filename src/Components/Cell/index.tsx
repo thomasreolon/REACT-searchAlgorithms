@@ -1,5 +1,5 @@
 import React from 'react';
-import "./Cell.css";
+import "./Cell.scss";
 
 interface CellProps{
     row:number,
@@ -11,11 +11,13 @@ interface CellProps{
     onMouseDown:(row:number,col:number)=>void,
     onMouseEnter:(row:number,col:number)=>void,
     size:string,
+    className?:string,
 }
 
 
 function Cell(props:CellProps) {
     const [isWall, setIsWall] = React.useState(false);
+    const css = props.className || "";
 
     const setWall = (pressedNow:boolean) =>{
         if (pressedNow || props.mPressed[0]){// check user wanted to draw a wall
@@ -32,11 +34,11 @@ function Cell(props:CellProps) {
     return (
         <div
             id={`cell-${props.row}-${props.col}`}
-            className="cell"
+            className={`cell ${css}`}
             onMouseDown={(event) => {setWall(true);event.preventDefault();}}
             onMouseEnter={(event) => {setWall(false);event.preventDefault();}}
             style={{'width':props.size, 'height':props.size,}}>
-            
+            <div className="path-content"></div>
             {isWall && <div className="wall"></div>}
             {props.isStart && <div className="start"></div>}
             {props.isFinish && <div className="finish"></div>}

@@ -62,7 +62,11 @@ function animateAlg(visited:Coord[]|undefined, reversedPath:Coord[]|undefined, s
 
 
 function CmdPanel({grid, start,end, nRow, nCol}:{grid:Node[][],end:Coord, start:Coord, nRow:number, nCol:number}) {
-    const description=`drag the mouse in the grid to create walls. Select the search algorithm. Press play`;
+    const description=<>
+            <p className="parag">Drag the mouse in the grid to create walls.</p>
+            <p className="parag">Select the search algorithm.</p>
+            <p className="parag">Press play</p>
+        </>;
     const wide = window.innerWidth>700;
 
 
@@ -89,8 +93,8 @@ function CmdPanel({grid, start,end, nRow, nCol}:{grid:Node[][],end:Coord, start:
             <div className="panel">
                 {wide && <div className="description">{description}</div>}
                 <div>
-                    <button className="btn btn-alg" onClick={()=>setAlg(0)}>DFS</button>
-                    <button className="btn btn-alg" onClick={()=>setAlg(1)}>A*</button>
+                    <button className={`btn btn-alg ${alg===0 && 'selected'}`} onClick={(e)=>setAlg(0)}>DFS</button>
+                    <button className={`btn btn-alg ${alg===1 && 'selected'}`} onClick={(e)=>setAlg(1)}>A*</button>
                 </div>
                 <div>
                     <button className="btn btn-start" onClick={() => selectAlg(alg)}>START</button>

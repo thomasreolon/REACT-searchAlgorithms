@@ -74,6 +74,10 @@ function Grid() {
             document.removeEventListener('mousedown', mDW);
         };
     }, []);
+    var size = '3.33vw';
+    if (window.innerWidth/window.innerHeight>1){
+      size = '1.75vw';
+    }
     
     // handle walls
     function handleMouseDown(row:number, col:number) {
@@ -94,7 +98,6 @@ function Grid() {
           nCol={grid[0].length}
         />
         <div className="Grid">
-            <h1>|-{mPressed?"Y":"N"}-|</h1>
             {grid.map((row, rowIdx) => {
             return (
               <div key={rowIdx} className="row">
@@ -109,7 +112,7 @@ function Grid() {
                             isFinish={isFinish}
                             isStart={isStart}
                             isWall={isWall}
-                            size="1.75vw"
+                            size={size}
                             onMouseDown={(row:number, col:number)  => handleMouseDown(row, col)}
                             onMouseEnter={(row:number, col:number) => handleMouseEnter(row, col)}
                         />

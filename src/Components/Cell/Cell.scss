@@ -1,0 +1,86 @@
+.cell {
+  box-sizing: border-box;
+  background-color: white;
+  border: 1px solid whitesmoke;
+}
+
+// to give more priority to modifiers
+@import "./wall.scss", "./path.scss", "./visited.scss";
+
+.finish {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background-color: rgb(223, 63, 51);
+  border-radius: 30%;
+  animation-name: endAnimation;
+  animation-duration: 5s;
+  animation-timing-function: linear;
+  animation-delay: 0;
+  animation-direction: normal;
+  animation-iteration-count: infinite;
+  animation-fill-mode: forwards;
+  animation-play-state: running;
+}
+.finish:hover::after {
+  content: "finish";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: black;
+  font-weight: bold;
+  padding: 0 0.5em;
+  font-size: 2em;
+  background-color: rgba(255, 255, 255, 0.4);
+  border-radius: 1em;
+}
+
+@keyframes endAnimation {
+  0% {
+    background-color: rgb(223, 63, 51);
+  }
+
+  50% {
+    background-color: rgb(13, 128, 235);
+  }
+}
+
+.start {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background-color: rgb(51, 223, 125);
+  border-radius: 30%;
+  animation-name: startAnimation;
+  animation-duration: 3s;
+  animation-timing-function: ease-in-out;
+  animation-delay: 0;
+  animation-direction: alternate;
+  animation-iteration-count: infinite;
+  animation-fill-mode: forwards;
+  animation-play-state: running;
+}
+.start:hover::after {
+  content: "start";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: black;
+  font-weight: bold;
+  padding: 0 0.5em;
+  font-size: 2em;
+  background-color: rgba(255, 255, 255, 0.4);
+  border-radius: 1em;
+}
+
+@keyframes startAnimation {
+  0% {
+    background-color: rgb(51, 223, 125);
+  }
+
+  50% {
+    background-color: rgb(51, 223, 215);
+  }
+}
