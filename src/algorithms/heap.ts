@@ -22,7 +22,7 @@ class MinHeap<T> {
    *    content: what to store
    * }
    */
-  add(value: Content<T>) {
+  add(value: Content<T>):boolean {
     const cc = this.old.get(value.id);
     if (cc) {
       // update old value if smaller
@@ -30,18 +30,21 @@ class MinHeap<T> {
         cc.priority = value.priority;
         for (let i = 0; i < this.v.getLen(); i++) {
           const val = this.v.get(i);
-          if (val.id == value.id) {
+          if (val.id === value.id) {
             this._fromBottomOrder(i);
             break;
           }
         }
+        return true;
       }
     } else {
       // add new value
       this.v.push(value);
       this.old.set(value.id, value);
       this._fromBottomOrder(this.v.getLen() - 1);
+      return true;
     }
+    return false;
   }
 
   /**
@@ -49,7 +52,7 @@ class MinHeap<T> {
    */
   get(): T {
     // raise error if heap is empty
-    if (this.v.getLen() == 0) throw new Error("can't read from an empty heap");
+    if (this.v.getLen() === 0) throw new Error("can't read from an empty heap");
 
     const val = this.v.get(0); // get the minimum value
     this.v.swap(0, this.v.getLen() - 1);
@@ -89,7 +92,7 @@ class MinHeap<T> {
       if (c2.priority < p.priority && c2.priority < c1.priority) res = ch2;
 
       // if children are smaller: swap new minimun & call again
-      if (res != idx) {
+      if (res !== idx) {
         this.v.swap(idx, res);
         this._fromTopOrder(res);
       }

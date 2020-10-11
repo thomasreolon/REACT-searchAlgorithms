@@ -1,6 +1,7 @@
 import bfs from "../algorithms/bfs";
+import astar from "../algorithms/astar";
 
-test("bfs with wall", () => {
+function getGrid1(){
     const grid = [];
     for (let i=0;i<10;i++){
         const tmp = [];
@@ -23,9 +24,34 @@ test("bfs with wall", () => {
     grid[3][1].isWall = true;
     grid[3][2].isWall = true;
     grid[3][3].isWall = true;
-    
+    return grid;
+}
+
+
+
+
+test("BFS with wall", () => {
+    const grid = getGrid1();
     const [, path] = bfs(grid, 0, 0, 10, 10);
     expect(path.length).toBe(15);
+});
+
+
+test("A* with wall", () => {
+    const grid = getGrid1();
+    const [, path] = astar(grid, 0, 0, 7, 1, 10, 10);
+    expect(path.length).toBe(15);
+});
+
+test("A* faster than BFS", ()=>{
+    const grid1 = getGrid1();
+    const [vis1, path1] = bfs(grid1, 0, 0, 10, 10);
+
+    const grid2 = getGrid1();
+    const [vis2, path2] = astar(grid2, 0, 0, 7, 1, 10, 10);
+
+    expect(path1.length).toBe(path2.length);
+    expect(vis1.length>=vis2.length).toBe(true);
 });
 
 

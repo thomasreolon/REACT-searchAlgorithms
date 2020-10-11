@@ -12,16 +12,20 @@ class Vector<T> {
 
   // get the coords
   _coord(index: number) {
-    const arrayN = Math.floor(index / this.size);
-    const id = index % this.size;
-    return [arrayN, id];
+    var arrayN = 0;
+    while(index >= this.size * 2**arrayN){
+      index -= this.size * 2**arrayN;
+      arrayN++;
+    }
+    return [arrayN, index];
   }
 
   // add a value at the end of the vector (eventually expands)
   push(content: T) {
     const [arrayN, index] = this._coord(this.len);
-    if (index == 0) {
+    if (index === 0) {
       const factor = 2 ** this.values.length;
+      console.log("alloc",this.size * factor)
       this.values.push(Array(this.size * factor));
     }
 

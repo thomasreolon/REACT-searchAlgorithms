@@ -1,5 +1,6 @@
 import React from 'react';
 import bfs from "../../algorithms/bfs";
+import astar from "../../algorithms/astar";
 import "./CmdPanel.css";
 
 interface Coord{
@@ -15,6 +16,7 @@ interface Node{
     isWall: boolean,
     previousNode: Node|null,
 }
+
 function unvisitGrid(grid:Node[][]){
     const nRow=grid.length, nCol=grid[0].length;
     
@@ -37,7 +39,6 @@ function animateShortestPath(reversedPath:Coord[], showid:number) {
     }
 }
 function animateAlg(visited:Coord[]|undefined, reversedPath:Coord[]|undefined, showid:number) {
-    console.log('ANIMATE', visited?.length)
     if (visited && visited.length>0){
         for (let i = 0; i <= visited.length; i++) {
             if (reversedPath && i === visited.length) {
@@ -60,7 +61,7 @@ function animateAlg(visited:Coord[]|undefined, reversedPath:Coord[]|undefined, s
 }
 
 
-function CmdPanel({grid, start, nRow, nCol}:{grid:Node[][], start:Coord, nRow:number, nCol:number}) {
+function CmdPanel({grid, start,end, nRow, nCol}:{grid:Node[][],end:Coord, start:Coord, nRow:number, nCol:number}) {
     const description=`drag the mouse in the grid to create walls. Select the search algorithm. Press play`;
     const wide = window.innerWidth>700;
 
@@ -73,6 +74,8 @@ function CmdPanel({grid, start, nRow, nCol}:{grid:Node[][], start:Coord, nRow:nu
         switch(id){
             case 0:
                 res = bfs(grid, start.x, start.y, nRow, nCol); break;
+            case 1:
+                res = astar(grid, start.x, start.y, end.x,end.y, nRow, nCol); break;
             default:
                 res = bfs(grid, start.x, start.y, nRow, nCol); break;
         }
@@ -87,6 +90,7 @@ function CmdPanel({grid, start, nRow, nCol}:{grid:Node[][], start:Coord, nRow:nu
                 {wide && <div className="description">{description}</div>}
                 <div>
                     <button className="btn btn-alg" onClick={()=>setAlg(0)}>DFS</button>
+                    <button className="btn btn-alg" onClick={()=>setAlg(1)}>A*</button>
                 </div>
                 <div>
                     <button className="btn btn-start" onClick={() => selectAlg(alg)}>START</button>

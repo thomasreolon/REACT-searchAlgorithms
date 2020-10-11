@@ -88,7 +88,8 @@ function Grid() {
       <>
         <CmdPanel 
           grid={grid} 
-          start={{x:NODE_ROW, y:START_NODE_COL}} 
+          start={{x:NODE_ROW, y:START_NODE_COL}}
+          end={{x:NODE_ROW, y:FINISH_NODE_COL}}
           nRow={grid.length} 
           nCol={grid[0].length}
         />
