@@ -95,7 +95,7 @@ function CmdPanel({grid, start,end, nRow, nCol}:{grid:Node[][],end:Coord, start:
             <div className="panel">
                 {wide && <div className="description">{description}</div>}
                 <div>
-                    <button className={`btn btn-alg ${alg===0 && 'selected'}`} onClick={()=>setAlg(0)} onTouchStart={()=>setAlg(0)}>DFS</button>
+                    <button className={`btn btn-alg ${alg===0 && 'selected'}`} onClick={()=>setAlg(0)} onTouchStart={()=>setAlg(0)}>BFS</button>
                     <button className={`btn btn-alg ${alg===1 && 'selected'}`} onClick={()=>setAlg(1)} onTouchStart={()=>setAlg(1)}>A*</button>
                 </div>
                 <div>
