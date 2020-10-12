@@ -1,6 +1,7 @@
 import React from 'react';
 import bfs from "../../algorithms/bfs";
 import astar from "../../algorithms/astar";
+import MobileInfo from "./MobileInfo";
 import "./CmdPanel.css";
 
 interface Coord{
@@ -63,7 +64,7 @@ function animateAlg(visited:Coord[]|undefined, reversedPath:Coord[]|undefined, s
 
 function CmdPanel({grid, start,end, nRow, nCol}:{grid:Node[][],end:Coord, start:Coord, nRow:number, nCol:number}) {
     const description=<>
-            <p className="parag">Drag the mouse in the grid to create walls.</p>
+            <p className="parag">Drag the mouse or Touch a cell in the grid to create walls.</p>
             <p className="parag">Select the search algorithm.</p>
             <p className="parag">Press play</p>
         </>;
@@ -86,18 +87,19 @@ function CmdPanel({grid, start,end, nRow, nCol}:{grid:Node[][],end:Coord, start:
         animateAlg(res[0], res[1], showid);
     }
 
-    const [alg, setAlg] = React.useState<number>(0);
+    const [alg, setAlg] = React.useState<number>(1);
     return (
         <>
+            {!wide && <MobileInfo>{description}</MobileInfo>}
             <div className="htop"></div>
             <div className="panel">
                 {wide && <div className="description">{description}</div>}
                 <div>
-                    <button className={`btn btn-alg ${alg===0 && 'selected'}`} onClick={(e)=>setAlg(0)}>DFS</button>
-                    <button className={`btn btn-alg ${alg===1 && 'selected'}`} onClick={(e)=>setAlg(1)}>A*</button>
+                    <button className={`btn btn-alg ${alg===0 && 'selected'}`} onClick={()=>setAlg(0)} onTouchStart={()=>setAlg(0)}>DFS</button>
+                    <button className={`btn btn-alg ${alg===1 && 'selected'}`} onClick={()=>setAlg(1)} onTouchStart={()=>setAlg(1)}>A*</button>
                 </div>
                 <div>
-                    <button className="btn btn-start" onClick={() => selectAlg(alg)}>START</button>
+                    <button className="btn btn-start" onClick={() => selectAlg(alg)} onTouchStart={()=>selectAlg(alg)}>START</button>
                 </div>
             </div>
         </>

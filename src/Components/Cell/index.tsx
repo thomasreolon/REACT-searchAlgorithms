@@ -37,7 +37,9 @@ function Cell(props:CellProps) {
             className={`cell ${css}`}
             onMouseDown={(event) => {setWall(true);event.preventDefault();}}
             onMouseEnter={(event) => {setWall(false);event.preventDefault();}}
-            style={{'width':props.size, 'height':props.size,}}>
+            onTouchStart={(event) => {setWall(true);event.preventDefault();}}
+            style={{'width':props.size, 'height':props.size,}}
+        >
             <div className="path-content"></div>
             {isWall && <div className="wall"></div>}
             {props.isStart && <div className="start"></div>}

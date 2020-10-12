@@ -58,20 +58,25 @@ function Grid() {
     // handle mouse up & down
     React.useEffect(() => {
 
-        const mUP = (event:MouseEvent) => {
+        const mUP = (event:Event) => {
             mPressed[0]=false;
             event.preventDefault();
         };
-        const mDW = (event:MouseEvent) => {
+        const mDW = (event:Event) => {
             mPressed[0]=true;
             event.preventDefault();
         };
+        
       
         document.addEventListener('mouseup', mUP);
         document.addEventListener('mousedown', mDW);
+        document.addEventListener('touchstart', mDW);
+        document.addEventListener('touchend', mUP);
         return () => {
-            document.removeEventListener('mouseup', mUP);
-            document.removeEventListener('mousedown', mDW);
+          document.removeEventListener('mouseup', mUP);
+          document.removeEventListener('mousedown', mDW);
+          document.removeEventListener('touchstart', mDW);
+          document.removeEventListener('touchend', mUP);
         };
     }, []);
     var size = '3.33vw';
