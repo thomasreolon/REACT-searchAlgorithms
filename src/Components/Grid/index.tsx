@@ -58,13 +58,11 @@ function Grid() {
     // handle mouse up & down
     React.useEffect(() => {
 
-        const mUP = (event:Event) => {
+        const mUP = () => {
             mPressed[0]=false;
-            event.preventDefault();
         };
-        const mDW = (event:Event) => {
+        const mDW = () => {
             mPressed[0]=true;
-            event.preventDefault();
         };
         
       

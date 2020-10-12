@@ -1,4 +1,5 @@
 .Grid {
+  max-height: 100vh;
   width: 100vw;
   overflow: hidden;
   background-color: rgb(47, 53, 79);

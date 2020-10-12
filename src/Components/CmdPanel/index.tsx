@@ -63,6 +63,7 @@ function animateAlg(visited:Coord[]|undefined, reversedPath:Coord[]|undefined, s
 
 
 function CmdPanel({grid, start,end, nRow, nCol}:{grid:Node[][],end:Coord, start:Coord, nRow:number, nCol:number}) {
+    const [alg, setAlg] = React.useState<number>(0);
     const description=<>
             <p className="parag">Drag the mouse or Touch a cell in the grid to create walls.</p>
             <p className="parag">Select the search algorithm.</p>
@@ -87,7 +88,6 @@ function CmdPanel({grid, start,end, nRow, nCol}:{grid:Node[][],end:Coord, start:
         animateAlg(res[0], res[1], showid);
     }
 
-    const [alg, setAlg] = React.useState<number>(1);
     return (
         <>
             {!wide && <MobileInfo>{description}</MobileInfo>}
